@@ -27,6 +27,43 @@ void TessellatedSphere::Init(const int nt)
 	CreateFace();
 }
 
+void TessellatedSphere::SaveAsVtk() const
+{
+	using namespace std;
+
+	const std::string fname = "Sphere.vtk";
+	std::ofstream ofs;
+	ofs.open(fname);
+
+	// write header 
+	ofs << "# vtk DataFile Version 2.0" << endl;
+	ofs << "3D model of sphere" << endl;
+	ofs << "ASCII" << endl;
+	ofs << endl;
+	ofs << "DATASET POLYDATA" << endl;
+
+	ofs << "POINTS " << nv_ << " float" << endl;
+	for (const Vec3& v : vsphere_)
+	{
+		ofs << " "
+			<< v.x() << " "
+			<< v.y() << " "
+			<< v.z() << endl;
+	}
+	
+	ofs << endl;
+
+	ofs << "POLYGONS " << nf_ << " " << 4 * nf_ << endl;
+	for (const Idx3& f : fsphere_)
+	{
+		ofs << " 3 " 
+			<< f.x() << " "
+			<< f.y() << " "
+			<< f.z() << endl;
+	}
+	ofs.close();
+}
+
 void TessellatedSphere::CreateVertices()
 {
 	// number of vertices
@@ -328,41 +365,4 @@ Vec3 TessellatedSphere::Slerp(const Vec3& s, const Vec3& e, const double ratio)
 
 	const Vec3 p = a * s + b * e;
 	return p;
-}
-
-void TessellatedSphere::SaveAsVtk()
-{
-	using namespace std;
-
-	const std::string fname = "Sphere.vtk";
-	std::ofstream ofs;
-	ofs.open(fname);
-
-	// write header 
-	ofs << "# vtk DataFile Version 2.0" << endl;
-	ofs << "3D model of sphere" << endl;
-	ofs << "ASCII" << endl;
-	ofs << endl;
-	ofs << "DATASET POLYDATA" << endl;
-
-	ofs << "POINTS " << nv_ << " float" << endl;
-	for (const Vec3& v : vsphere_)
-	{
-		ofs << " "
-			<< v.x() << " "
-			<< v.y() << " "
-			<< v.z() << endl;
-	}
-	
-	ofs << endl;
-
-	ofs << "POLYGONS " << nf_ << " " << 4 * nf_ << endl;
-	for (const Idx3& f : fsphere_)
-	{
-		ofs << " 3 " 
-			<< f.x() << " "
-			<< f.y() << " "
-			<< f.z() << endl;
-	}
-	ofs.close();
 }

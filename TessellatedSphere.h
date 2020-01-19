@@ -34,7 +34,7 @@ public:
 	const VecIdx3& farr;
 
 	// Save 3D model of tesselated icosahedoron as VTK (ParaView) format
-	void SaveAsVtk();
+	void SaveAsVtk() const;
 
 private:
 
