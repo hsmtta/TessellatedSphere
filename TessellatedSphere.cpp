@@ -114,10 +114,10 @@ void TessellatedSphere::CreateVertices()
 			{
 				// index of left edge
 				const int ileft = it*(it + 1) / 2;
-				vface[ileft] = MathUtil::slerp(v1, v2, (double)it / (double)nt_);
+				vface[ileft] = Slerp(v1, v2, (double)it / (double)nt_);
 				// index of right edge
 				const int iright = (it + 1)*(it + 2) / 2 - 1;
-				vface[iright] = MathUtil::slerp(v1, v3, (double)it / (double)nt_);
+				vface[iright] = Slerp(v1, v3, (double)it / (double)nt_);
 			}
 
 			// create tesselated vertices inside icosahedron face
@@ -129,7 +129,7 @@ void TessellatedSphere::CreateVertices()
 					const int iend = istart + irow - 1;
 					const Vec3 vstart(vface[istart]);
 					const Vec3 vend(vface[iend]);
-					vsphere_.push_back(MathUtil::slerp(vstart, vend, icol / (double)(irow - 1)));
+					vsphere_.push_back(Slerp(vstart, vend, icol / (double)(irow - 1)));
 					fico_[iface].v[irow*(irow-1)/2 + icol] = (int)vsphere_.size() - 1;
 				}
 			}
